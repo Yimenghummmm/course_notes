@@ -1,2 +1,4 @@
 # course_notes
-LaTex course notes taken for various classes at McGill University: currently include Math 323
+### LaTex course notes taken for various classes at McGill University 
+
+1.Math 323
