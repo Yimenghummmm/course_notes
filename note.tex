@@ -1,0 +1,1219 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}
+\geometry{
+    a4paper,
+    left=1.5cm,
+    right=1.5cm,
+    top=2cm
+}
+\usepackage{fancyhdr}
+\setlength{\headheight}{15,2pt}
+\pagestyle{fancy}
+\fancyhead[LE,RO]{Yimeng Hu}
+\fancyhead[RE,LO]{notes (math 323)}
+\fancyfoot[CE,CO]{\thepage}
+\usepackage{graphicx}
+\graphicspath{{./image/}}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\newtheorem{theorem}{\framebox{Thm}}[section]
+\newtheorem{corollary}{\framebox{Cor}}[theorem]
+\newtheorem{lemma}{\framebox{Lemma}}[theorem]
+\newtheorem*{remark}{Remark}
+\newtheorem*{note}{Note}
+\newtheorem*{recall}{Recall}
+\newtheorem*{solution}{\framebox{Sol}}
+\newtheorem{definition}{\framebox{DEF}}[section]
+\newtheorem{example}{\framebox{Ex}}[section]
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+\renewcommand{\proofname}{$\underline{{\textit{PROOF:}}}$}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+\usepackage{hyperref}
+
+\begin{document}
+\author{Prof: David Wolfson \\Yimeng Hu }
+\title{Statistics (Math 323) winter 2019}
+\date{}
+\maketitle
+\tableofcontents
+\newpage
+    \section{Lec 01, Jan 08}
+        \subsection{Introduction}
+            Why study probability? 
+            \begin{itemize}
+                \item as a discipline in its own right.
+                \item as a part of mathematics/ applied mathematics
+                \item Most importantly, as a tool for statistical inference
+            \end{itemize}
+            \textbf{The meaning of probability} (i.e when we say "the probability" of an event A is 2/3, what do we mean)
+            \framebox{Ex} a box has 6 Red and 4 green marbles. Draw a marble at random from the box.
+                            What is the probability \tab that the marble is red?
+                \begin{enumerate}
+                    \item If we say P(red) = $\frac{6}{10}$ what do we mean by this statement?
+                        \begin{solution}\tab \\
+                            We cannot simply define "the probability" of getting a red as 
+                            $\lim_{N \rightarrow \infty} \frac{\text{\# of red}}{\text{\# of trials}}$
+                            since we do not know if this limit will exist and be unique for every sequence of trials.
+                            So instead in the 1930. The Great Russian mathematician A.N. Komolgorov proposed \textbf{3 axioms/assumptions}
+                            that probability should satisfies and then developped a theory of probability from these.
+                        \end{solution}
+                        \begin{note}
+                            As a consequence of The law of large number, we interpret probability as a limiting relative frequency.
+                            However it has nothing to do with relative frequencies.
+                        \end{note}
+                        
+                    \item How did you arrive at this answer?
+                        \begin{solution} \tab \\
+                            In order to arrive at the answer $\frac{6}{10}$, we need to use the Komolgorov axioms
+                            and any theorm that follows from that to prove that this is indeed correct.
+                        \end{solution}
+                \end{enumerate}
+        \subsection{Basic Set Algebra}
+            \begin{enumerate}
+                \item $A = \{\omega : \omega \in A\}$ where A is an event (a set) consist of elementary outcomes w.
+                \item $A \cap B = \{\omega: \omega \in A \text{and} \omega \in B\}$ \tab \textbf{note:} "and" $\Rightarrow$ intersection
+                \item $A \cup B = \{\omega: \omega \in A \text{or} \omega \in B\}$ \tab \textbf{note:} "or" $\Rightarrow$ union.
+                \item $A \subset B:= \omega \in A \Rightarrow \omega \in B$
+                \item All discussion take place in the context of the \underline{\textbf{universal set}} \textit{S}
+                \item $A^c := \{\omega \in S : \omega \notin A\}$ \tab \textbf{note:} It is sometimes easier to first find $P(A^c)$
+                \item $A\cap B = \phi \Rightarrow$ A and B disjoint or mutually exclusive
+                \item De Morgan's Law: 
+                    \begin{itemize}
+                        \item[a)]
+                            $ (A\cap B)^c = A^c \cup B^c$
+                        \item[b)] 
+                            $ (A\cup B)^c = A^c \cap B^c$ 
+                    \end{itemize}
+            \end{enumerate}
+    \newpage
+    \section{Lec 02, Jan 10}
+            \subsection{Experiment}
+                \begin{definition}
+                    An \textbf{\textit{experiment}} is defined informally as the performance of some actions
+                \end{definition} 
+
+                \begin{definition}
+                    An \textbf{\textit{Random Experiment}} is one for which the outcome are not known in advance. 
+                    i.e there is uncertainty in the outcome that will be observed. 
+                    (Once thet experiment has been conducted though you may not know the outcome, there is nothing random about the outcome)
+                \end{definition}
+
+                \begin{example}
+                         Toss a coin twice and observe the outcome
+                         The pre-experiment outcomes are random / uncertain 
+                \end{example}
+
+                \begin{example}
+                    Take 60 subjects who will undergo surgery for a certain disorder before we observe their 
+                    $\underbrace{\text{time to recovery}}_{outcome}$, are random/uncertain
+                \end{example}
+
+                \begin{example}
+                    Toss a coin until you observe the first head. Let the trial at which this happens be the outcome of interest.
+                    This outcome is random before you start tossing.
+                \end{example}
+            
+            \subsection{Sample Space}
+                \begin{definition}
+                    The set of all possible outcome of an experiment is called the \textbf{\textit{Sample Space (S)}}
+                    of the experiment. We denote each outcome as $\omega$, an elemenatry outcome.
+                \end{definition}
+
+                \begin{note}
+                    a sample space mainly depend on how you define your outcomes.
+                \end{note}
+
+                \begin{example}
+                    Draw a marble at random from 6 Red and 4 Green. 
+                    
+                    \begin{enumerate}
+                        \item If order \textbf{does not} matter,
+                            Let $w_1$:= event which a red marble is drawn,
+                            $w_2$ := event which a green marble is drawn. then the sample space is as following:
+                            $S = \{w_1, w_2\}$
+                        \item If order matters, number the marbles WLOG $\{\underbrace{1,...,6}_{Red},\underbrace{,7,...,10}_{Green}\}$
+                            Let $w_i:=$ event which marble i is drawn for i = 1,...,10
+                            Then the sample space is: S = \{$w_1,...,w_{10}$\}
+                    \end{enumerate}
+                \end{example}
+
+                \begin{example}
+                    Suppose there are n people in a room, ask these people when their birthday are.
+                    Let S be the set of outcomes that we could get at the completion of our experiment. 
+                    Then S could be defined as: 
+                    \\$S = \{\underbrace{\{Jan 1, ..., Jan 1\}}_{w_1},..., \underbrace{\{Dec 31, ..., Dec 31\}}_{w_n}\}$
+                \end{example}
+                \begin{note}
+                    Here the elementary outcomes are n-dim vectors
+                \end{note}
+
+                \begin{example}
+                    Toss a coin until you observe the $1^{st}$ head. Let n be the trial number at which this occurs.
+                    Then S = \{$w_1,...,w_n$\} = \{1,...,n\}. S is an example of sample space with a countably many numbers of possible outcomes.
+                \end{example}
+
+                \begin{example}
+                    Suppose that you measure the height of a dam every July $1^st$. The set of possible heights might be 
+                    S = \{[0,20]\} where 20 is the height of the dam wall in meters.
+                    Here S is an uncountably infinite set. \textbf{\textit{Note: }}In real lift no such sample space exits.
+                \end{example}
+            \subsection{Kolmogorov Axioms}
+                \begin{definition}
+                    Any subset $E \subset S $ is defined as an \textbf{\textit{event}}.
+                     The empty set $\phi \subset S$ is also an event.
+                \end{definition}
+                
+                \begin{definition}
+                    a function P() is a set function on the subset of S if P(A) is a real number for every subset of S.
+                    Let S be a sample space. Then P() is called a probability measure if P is a real valued set function on S s.t
+                    \begin{enumerate}
+                        \item $\forall E \subset S, P(E) \geq 0$
+                        \item P(S) = 1
+                        \item Let $E_1, E_2, ...$ be any countable connection of events such that they are mutually exclusive, 
+                        \\i.e $E_i \cap E_j = \phi \tab \forall i\neq j$. 
+                         Then P($\bigcup\limits_{i=1}^{\infty}E_i$) = $\sum\limits_{i=1}^{\infty}P(E_i)$ 
+                    \end{enumerate}
+                \end{definition}
+                \begin{note}
+                    From these 3 axioms, we developpe the entire theory of probability including the Law of Large numbers 
+                    which allows us to interpret probability as a limiting relative frequency. 
+                    We shall state and prove 5 theorem that will be useful for solving word problems.
+                \end{note}
+                \newpage
+    \section{Lec 03, Jan 15}
+        \subsection{The 5 theorems}
+            \begin{theorem}
+                \begin{enumerate}
+                    \item For any event A, P($A^c$) = 1-P(A)
+                        \begin{proof}
+                            \begin{align*}
+                                 A \cup A^c = S,&\Rightarrow P(A\cup A^c) = P(S) = 1 \tag{Ax 2} \\
+                                 A \cap A^c = \phi &\Rightarrow P(A \cup A^c) = P(A) + P(A^c) \tag{Ax 3}\\
+                                 \Rightarrow P(A^c) &= 1 - P(A)
+                            \end{align*}
+                        \end{proof}
+                    \item P($\phi$) = 0 
+                    \item P($A \cap B^c) = P(A) - P(A \cap B )$
+                        \begin{proof}
+                            trick: Try to write unions as disjoint unions and apply Ax 3
+                            \begin{align*}
+                                A = (A\cap B) \cup (A\cap B^c)  &\Rightarrow P(A) = P(A\cap B)+P(A\cap B^c) \tag{Ax 3}\\
+                                                                &\Rightarrow P(A\cap B^c) = P(A) - P(A \cap B)
+                            \end{align*}
+                        \end{proof}
+                    \item  $A\subset B \Rightarrow P(A) \leq P(B)$
+                        \begin{proof}
+                            \begin{align*}
+                                B = A \cup (B \cap A^c) , 
+                                 A \cap (B\cap A^c) =\phi\\
+                                \Rightarrow P(B)    &= P(A) + P(B \cap A^c) \\
+                                                    &\geq P(A) \tag{Ax 1}
+                            \end{align*}
+                        \end{proof}
+                    \item For any two events A and B, $P(A\cup B) = P(A) +P(B) -P(A\cap B)$
+                        \begin{note}
+                            if $A\cap B = \phi, \text{ then } P(A\cup B )= P(A) + P(B)$
+                        \end{note}
+                        \begin{proof}
+                            \begin{align*}
+                                A \cup B &= \underbrace{(A \cap B^c) \cup (A\cap B) \cup (A^c \cap B)}_{\text{mutually exclusive}}\\
+                                \Rightarrow P(A\cup B)  &= P(A\cap B^c) + P(A\cap B ) + P(A^c \cap B) \tag{Ax 3}\\
+                                                        &= P(A) - P(A\cap B) +P(A\cap B) + P(A \cap B) +P(B) -P(A\cap B) \tag{Thm 3}\\
+                                                        &=P(A)+P(B) -P(A\cap B)
+                            \end{align*}
+                        \end{proof}
+                \end{enumerate}
+                \begin{corollary}
+                    For any event A, $0 \leq P(A) \leq 1$
+                \end{corollary}
+            \end{theorem}
+
+            \begin{note}
+                Do not use tree diagram to present your answer. Start by defining the simplest possible event then 
+                construct more complicated event by using set operations.
+                
+                "Either ... or...", "At least" $\Rightarrow \bigcup$ ,\tab "and" $\Rightarrow \bigcap$,
+                \tab "Not" $\Rightarrow $ complement.
+                \\Then apply axiom or theorem.
+            %  
+            \end{note}
+            
+            \begin{example}
+                Suppose that it's known that 20\% of people smoke and that 1\% of old people will developpe lung cancer.
+                Suppose that the probability of someone will either smoke or developpe lung cancer is 0.205.
+                Let A:=the event of someone smokes. \\ B:= the event of someone has cancer
+                \\Then P(A) = 20\%, P(B) = 1\% and P($A\cup B$) = 0.205
+                \begin{enumerate}
+                    \item Find the proportion of people who smoke and developpe lung cancer.    
+                        \begin{solution}
+                            WTS P($A\cap B$)
+                            \begin{align*}
+                                P(A\cup B) &= P(A) + P(B) -P(A\cap B) \tag{thm 5}\\ 
+                                \Rightarrow P(A \cap B) &=P(A) + P(B) - P(A\cup B)\\
+                                                        &=0.2+0.01-0.205\\
+                                                        &=0.005
+                            \end{align*}
+                        \end{solution}
+                    \item What is the probability that someone does not smoke but have lung cancer.
+                        \begin{solution}
+                            WTS P($A^c \cap B$)
+                            \begin{align*}
+                                P(A^c \cap B)   &= P(B) - P(A\cap B) \tag{thm 3}\\
+                                                &=0.01 - 0.005\\
+                                                &=0.005
+                            \end{align*}
+                        \end{solution}
+                    \item What is the probability that someone smokes but does not have lung cancer.
+                        \begin{solution}
+                            WTS P($A\cap B^c$)
+                            \begin{align*}
+                                P(A\cap B^c)&= P(A) - P(A\cap B) \tag{thm 3} \\
+                                            &=0.2 - 0.005\\
+                                            &=0.195
+                            \end{align*}
+                        \end{solution}
+                    \item What is the probability that someone neither smoke nor have lung cancer. 
+                        \begin{solution}
+                            WTS P($A^c \cap B^c$)
+                            \begin{align*}
+                                P(A^c \cap B^c) &= P((A\cup B)^c) \tag{De Morgan's Law}\\
+                                                &=1-P(A \cup B) \tag{thm 1}\\
+                                                &=1-0.205\\
+                                                &=0.195
+                            \end{align*}
+                        \end{solution}
+                \end{enumerate}
+            \end{example}
+        \subsection{Tools for calculating probability}
+            \begin{theorem}
+                Let S be a finit sample space with N equally likely outcomes. Let E be any event in S. 
+                Then $$P(E) = \frac{\mid E \mid }{N} = \frac{\text{\# of outcoms in E}}{Tot. possible outcomes}$$
+                \begin{note}
+                    The calculation of a probability can be then reduced to a counting problem
+                \end{note}
+            
+            
+                \begin{proof}
+                    write the event E as the union of the elementary outcomes i.e 
+                    \begin{align*}
+                        E       &= \bigcup_{w_i \in E} w_i \Rightarrow P(E) = P(\bigcup_{w_i \in E}w_i) = \sum_{w_i\in E} P(W_i)\\
+                        P(S)    &= \sum_{i=1}^N P(w_i) = 1 \tag{Ax 2} \Rightarrow P(w_i) = \frac{1}{N} \tab \forall i = 1,...,N \\
+                        \text{Hence:\tab} P(E) &= \sum_{i=w_i\in E} \frac{1}{N} \\
+                                                &=\frac{1}{N} \sum_{i=w_i\in E} 1 \\
+                                                &=\frac{\mid E\mid}{N}
+                    \end{align*}
+                \end{proof}
+            \end{theorem}
+        \newpage   
+    \section{Lec 04, Jan 17}
+        we want a sample space with equally likely outcomes. 
+           \begin{recall}
+               S = \{1,2, ... , 10\},\tab
+               R = \{1,2,3,4,5,6\}, \tab
+               G = \{7,8,9,10\}
+               \\All of these outcomes are reasonably equally likely. There are N=10 such outcomes.
+               \\Therefore by the above thm(last class), $P(R) = \frac{\text{\# of ways to get a red marble}}{\text{tot. no. of possible outcomes}} = \frac{6}{10}$.
+           \end{recall}
+           
+           \begin{note}
+               Now although the above thm(last class) is easy to understand, the counting can sometimes be very difficult.
+               it is useful to have some counting tools
+           \end{note} 
+        \subsection{Counting Rule}
+            \begin{enumerate}
+                \item If you have a set of n distinct object, then the number of ways to order the objects in n!
+                \item If you have a set of n distinct object, then the number of ways to draw r object from the set, 
+                     and the order is unimportant, sampling $\textbf{without}$ replacement is denoted as "n choose r". 
+                     \[\binom{n}{r} = \frac{n!}{(n-r)!r!}, \tab \text{note: 0! = 1 by def}\]
+                \item If we have a set of n distinct objects. The number of ways to draw r objects from these n and the order does matter, sampling 
+                    $\textbf{without}$ replacement is denoted by "n permutation r" 
+                    \[P(n,r) = \frac{n!}{(n-r)!}\]
+                \item $\textbf{Multiplication Rule}$ (Sausage Rule)
+                       \\Suppose that you have k set of $n_1, n_2, ... , n_k$ distinct objects respectively. 
+                       The number of ways to form a set by selecting one object from each set is given by 
+                       \[n_1*n_2*...*n_k\] 
+            \end{enumerate}
+        
+        \subsection{The Birthday Problem}
+            Suppose there are n people in a room. What is the probability that at least two have the same birthday?
+            \begin{proof}\tab
+                \\Suppose that there are 356 possbile birthday
+                \\Let E := event that at least two people have the same birthday.
+                \\It is easier to compute $P(E^c)= $ P(no two have the same birthday), then 
+                \[P(E) = 1-P(E^c) \tag{by Thm 1}\]
+                The sample space here is S = \{(Jan 1, ..., Jan 1), ... , (Dec 31, ..., Dec 31)\}
+                \\First we assume that all of these outcomes are equally likely. There are finitely many of them.
+                Therefore 
+                \begin{align*}
+                    P(E^c)  &= \frac{\text{\# of ways that } E^c \text{can occur}}{Tot. no. of outcomes in s}\\
+                            &= \frac{\text{P(365,n)}}{365^n}\\
+                            &= \frac{365*364*...*(365-n+1)}{365^n }\\
+                    \intertext{Hence}
+                    P(E)    &= 1 - \frac{365*364*...*(365-n+1)}{365^n }
+                \end{align*}
+            \end{proof}
+        
+        \subsection{The Fish in the Lake Problem}
+            Suppose a lake has N fish in it, of which $\textbf{a}$ are tagged and $\textbf{N-a}$ are untagged.
+            If you draw a sample n fish from the lake, sampling $\textbf{without}$ replacement,
+            What is the probability of getting $\textbf{x}$ tagged fish in my sample?\\
+            \begin{proof}\tab
+                \\We want a sample space with equally likely outcomes. 
+                \\Start by numbering the fish from 1 to N.
+                \\We will suppose that the fish with numbers 1,...,$\textbf{a}$ correspond to those with tags and 
+                the remaining $\textbf{N-a}$ numbers to the untagged fish.
+                \\An outcome for our experiment is defined to a set of n integers selected from the integers 1,...,N
+                \\The order is considered unimportant and assume that all sets of n numbers are equally likely.
+                \\Hence we can use our thm to solve the problem. 
+                \\Let E:=event that there are x tagged in sample 
+                \begin{align*}
+                    P(E) & = \frac{\text{number of ways to get x tagged }}{\text{total number of poss. outcomes}} \\
+                    \intertext{We have }
+                    \text{Tot. number of possible outcomes} &= \text{number of ways to draw n integers from a set of N distinct integers}\\
+                                                            & = \binom{N}{n} \tag{counting rule 2.}    
+                \end{align*}
+                Now use $\textbf{Multiplication Rule}$
+                \\each sub-sausage contains $x\leq a$ integers selected from integer 1,...,a  
+                \\each sub-sausage contains n-x integers selected from integers (a+1),...,N.
+                So we must count the number of objects in each of these two sausages, $n_1, n_2$. 
+                say for the number of ways to get x tagged fish is = $n_1*x*n_2$
+                we have \[n_1 = \binom{a}{x}, \tab 
+                        n_2 = \binom{N-a}{n-x}\]
+                finally 
+                \begin{align*}
+                    P(\text{x tagged fish out of n})    &= \frac{\binom{a}{x}*\binom{N-a}{n-x}}{\binom{N}{n}}\\
+                \end{align*}
+            \end{proof}
+
+            \subsection{Capture \& Recapture Problem}   
+                Have N fish in the lake 
+                \textbf{\textit{Capture Phase}}
+                    \begin{enumerate}
+                        \item Remove and tag \textbf{\textit{a}} fish.
+                        \item Return the fish to the lake 
+                    \end{enumerate}
+                \textbf{\textit{Recapture Phase}}
+                    \begin{enumerate}
+                        \item capture \textbf{\textit{n}} fish
+                        \item Count how many tagged fish in the recaptured sample
+                    \end{enumerate}
+                \begin{align*}
+                        P(X=x) &= \frac{\binom{a}{x}*\binom{N-a}{n-x}}{\binom{N}{n}}\\
+                    \intertext{N is unknown, But}
+                        \frac{a}{N} &\approx \frac{x}{n}\\
+                        N &= \frac{a*n}{x}\\
+                \end{align*}
+                However, in real world, the captured face tends to be harder to be recaptured
+    \newpage
+    \section{Lec 05, Jan 22}
+        \subsection{Conditional Probability}
+                \textbf{\textit{Idea: }} Sometimes, knowning that an event A has occured influences the probability
+                                            that the event B will occure. 
+                \begin{example}
+                    In our marble problem, The probability of getting a red marble on the second of two draws (\textbf{without} replacement)
+                    knowning that we got a red on the first, is different from simply the probability of getting a red on the second draw.
+                    Argument 
+                    \begin{align*}
+                        P(R_2) &= P[ (R_2 \cap G_1) \cup (R_2 \cap R_1)]\\
+                                &=P[R_2 \cap G_1] + P[R_2 \cap R_1]
+                    \end{align*}
+                    which is easy to see, $P(R_2)$ is different from $P(R_2 \text{ knowning } R_1)$
+                    %\begin{align*}
+                    %    P(R_2 \text{ knowning } R_1) &= 
+                    %\end{align*}
+                \end{example}
+                We therefore feel justified in formally defining the notion of "Conditional Probability"
+
+                \begin{definition}
+                    Let A and B be two events such that P(A) $\neq $ 0, then we define the probability of B given A as follows:
+                    \begin{align*}
+                        P[B \text{ given } A] := P[B \mid A] = \frac{P[A\cap B]}{P(A)}
+                    \end{align*}
+                    \textbf{\textit{Note: }}the RHS is the ratio of two probability and we have defined probability (The 3 Axioms)
+                \end{definition}
+                \begin{note} \tab 
+                    \begin{enumerate}
+                        \item we need to check whether conditional probability satisfies the 3 Axioms.
+                            \begin{enumerate}
+                                \item $P(B \mid A) \geq 0$ 
+                                    \begin{proof}
+                                        \[P[ B \mid A] = \frac{\underbrace{P[A \cap B]}_\geq 0}{\underbrace{P(A)}_\geq )}\]
+                                        Hence true
+                                    \end{proof}
+                                \item $P[S \mid A ] =1 $
+                                    \begin{proof}
+                                        \[P[ S \mid A] = \frac{P[A \cap S]}{P(A)} = \frac{P(A)}{P(A)} = 1\]
+                                        Hence true
+                                    \end{proof}
+                                \item $P\big[\bigcup B_i \mid A \big] = \sum_{i=1}^{\infty} P[B_i \mid A] \tab where B_i \cap B_j = \phi \tab \forall i \neq j$
+                                    \begin{proof}
+                                        (exercise)
+                                    \end{proof}
+                            \end{enumerate}
+                        It then follows that the 5 theorem also go through for conditional Probability
+                        \item $P(A \mid B) = \frac{P(A \cap B)}{P(B)} \tab \text{ if } P(B) \neq 0$
+                            
+                    \end{enumerate}
+                \end{note}
+                The definition of conditional probability leads to a fundamental theorem that allows us to sometimes
+                find the probability of an intersection 
+
+        \subsection{Multiplication Rule for Conditional Probability}
+            Follows immediately from the definition of conditional probability
+            \begin{align*}
+                P(B \cap A) &= P(B \mid A)* P(A )\\
+                            &=P(A \mid B) * P(B)
+            \end{align*} 
+            The hope is that when you are required to find $P[A\cap B]$, you know either P(A) or P(B) 
+            and one of the conditional probability. 
+            \\In word problems, 
+            \begin{align*}
+                \text{"of those that" } \Rightarrow \text{ Conditional Probability}
+            \end{align*}
+            Do not confuse "and" with "given that"
+
+            \begin{example}
+                We have two inspectors for items coming off an assembly . The proportion of items that are declared non-defective by the first inspector is 0.90
+                of those items that are declared non-defective by inspector 1, 0.95 are declared non-defective by inspector 2. 
+                What is the probability that an item is declared non-defective by both inspectors.
+            \end{example}
+
+            \begin{solution} \tab 
+                \\
+                \\Let $ND_i $ (i=1,2) := event non-defective for each of the inspectors resp.\\
+                \textbf{WTS:} $P\big[ND_1 \cap ND_2 \big]$ \\
+                Given: $P[ND_1] = 0.90$ and $P\big[ND_2 \mid ND_1 \big] = 0.95$ \\
+                \begin{align*}
+                    P[ND_2 \cap ND_2] &= P[ND_2 \mid ND_1]* P[ND_1] \\
+                                        & = 0.90 * 0.95 \\
+                \tab \tab \tab \square
+                \end{align*}
+            \end{solution}
+            \textbf{*Extension: } LEt $A_1 , ..., A_n$ be any sequence of events. Then 
+            \begin{align*}
+                P[A_1 \cap ... \cap A_n] &= P[A_n \mid A_1 \cap ... \cap A_{n-1}]*P[A_1\cap ... \cap A_{n-1}]\\
+                                            &= P[A_n \mid A_1 \cap ... \cap A_{n-1}] * P[A_{n-1} \mid A_1 \cap ... \cap A_{n-2}]*P[A_1\cap ... \cap A_{n-2}]\\
+                                            &= ...\\
+                                            &= \Pi_{i=1}^n P[A_i \mid  A_1 \cap ... \cap A_{i-1}]*P(A_0) \tag{i=1,...,n}
+            \end{align*}
+            \begin{example}\tab \\
+                \begin{align*}
+                    P (A_1 \cap A_2 \cap A_3)   &= P(A_3 | A_1 \cap A_2) P(A_1 \cap A_2) \\
+                                                &= P(A_3 | A_1 \cap A_2) P(A_2 |A_1) P(A_1) \\
+                \end{align*}
+            \end{example}
+            The process of repeatedly conditioning stating with the last event is called the process of \textbf{\textit{conditioning backwards}}.\\
+            When you are required to find the probability of the intersection of several evetns, think of conditioning backwards
+    \newpage
+    \section{Lec 06, Jan 24}
+            \subsection{Conditioning Backwards}
+                \begin{definition}
+                    The process of repeatedly conditioning stating with the last event is called the process of \textbf{\textit{conditioning backwards}}.\\
+                    When you are required to find the probability of the intersection of several evetns, think of conditioning backwards
+                \end{definition}
+                
+                \begin{example}
+                    \textbf{The Marble Problem} \\
+                    \begin{enumerate}
+                        \item Suppose that you draw 2 marbles \textbf{without} replacement. What is the probability that the second marble drawn is green?
+                            \begin{solution} Conditioning Backwards. \\
+                                \begin{align*}
+                                    G_2     &= (R_1 \cap G_2) \cup (G_1 \cap G_2) \\
+                                    \intertext{\tab Implies}
+                                    P(G_2)  &= P((R_1 \cap G_2) ) + P((G_1 \cap G_2) ) \tag{Ax 3} \\
+                                            &= P(G_2|R_1)P(R_1) + P(G_2|G_1) P(G_1) \\
+                                            &= \frac{4}{9} * \frac{6}{10} + \frac{3}{9}* \frac{4}{10}
+                                \end{align*}
+                            \end{solution}
+                        \item Suppose that you draw 5 marbles. What is the probability that you will get the sequence $R_1, R_2, G_3, G_4, R_5$.
+                            \begin{solution} Conditioning Backwards
+                                \begin{multline*}
+                                    P(R_1 \cap R_2 \cap G_3 \cap G_4 \cap R_5)  = P (R_5 | R_1 \cap R_2 \cap G_3 \cap G_4 ) 
+                                                                                    * P(G_4 |R_1 \cap R_2 \cap G_3 )\\
+                                                                                        * (P(G_3|R_1 \cap R_2)
+                                                                                            *(P(R_2 |R_1)*P(R_1)\\
+                                \end{multline*}
+                                Hence 
+                                \begin{align*}
+                                    P(R_1 \cap R_2 \cap G_3 \cap G_4 \cap R_5)  &= \frac{4}{6}* \frac{3}{7}* \frac{4}{8}* \frac{5}{9} *\frac{6}{10}
+                                \end{align*}
+                            \end{solution}
+                    \end{enumerate}
+                \end{example}
+                The following theorem on conditional probability are fundamental 
+            \subsection{The Law of Total Probability}
+                \begin{theorem}\tab \\
+                    Let A be any event, let $B_1, B_2, ...$ be m events that satisfy the following 
+                    \begin{enumerate}
+                        \item $B_i \cap B_j = \phi \tab \forall i \neq j$ 
+                        \item $\bigcup\limits_{i=1}^m B_i = S$ we call \{$B_1,B_2,...$\} a partition of S
+                    \end{enumerate}
+                    Then $P(A) = \sum\limits_{i=1}^m P(A |B_i) P(B_i)$ 
+                \end{theorem}
+                \begin{proof}
+                    (Of theorem)
+                    \\known $A = \bigcup\limits_{i=1}^m \underbrace{(A\cap B_i)}_{\text{all disjoint}}$
+                    Hence 
+                    \begin{align*}
+                        P(A)    &= \sum_{i=1}^m P(A \cap B_i) \tag{Ax 3} \\
+                                &= \sum_{i=1}^m P(A | B_i) P(B_i)
+                    \end{align*}
+                \end{proof}
+                \begin{note}
+                    Maybe A is complicated and it is difficult to find its probability directly 
+                    or the given information does not provide P(A) directly. \\
+                    The hope is that we can find P(A$| B_i$) easily or that they come with the provided information 
+                    and that we know P($B_i$).\\
+                    In word problem, the clue to use the Law of Total Probability is that you are given a bunch of conditional probability and the probability $P(B_i)$ and you are asked to find P(A).
+                \end{note}
+        
+            \subsection{Baye's Theorem}
+                \begin{theorem}
+                    Let A and $B_1, B_2,...$ be defined exactly as in the \textit{Law of Probability}. 
+                    Then we can write  $$P(B_k | A) = \frac{P(A|B_k) *P(B_k)}{\sum_{i=1}^m P(A|B_i) P(B_i)} \tab (k=1,2,...,m)$$
+                \end{theorem}
+                \begin{proof}
+                    \begin{align*}
+                        P(B_k|A)    &= \frac{P(B_k \cap A)}{P(A)} \\
+                                    &= \frac{\overbrace{P(A|B_k)P(B_k)}^\text{mult. rule}}{\underbrace{\sum_{i=1}^m P(A|B_1)P(B_i)}_{\text{Law of tot.Prob.}}}
+                    \end{align*}
+                \end{proof}
+                \begin{note}
+                    Mathematically, Baye's Theorem allows you to reverse one or more given conditional probability. \\
+                    In word problem, the clue to use the Baye's thm is that you are required to reverse one or more conditional probability statement. 
+                \end{note}
+                \newpage
+                \begin{example}
+                    Suppose that there is a diagnostic test for breast cancer and that  in a certain population $\frac{5}{1000}$ women have breast cancer.
+                    Known that the test has the following properties:
+                    \begin{enumerate}
+                        \item if a woman has breast cancer, the test will be positive 95\% of the time.
+                        \item if a woman does not have breast cancer, the test will be negative 95\% of the time.
+                    \end{enumerate}
+                    Question is 
+                    \begin{enumerate}
+                        \item[i)] What proportion of women will test positive?
+                            \begin{solution} \tab\\
+                                \begin{align*}
+                                    \text{Let Pos }&:=\text{ event that a test is positive } \\
+                                    \text{Let Neg }&:=\text{ event that a test is negative } \\
+                                    \text{Let Bc }&:=\text{ event that a woman has breast cancer} \\
+                                    \text{Let Bc$^c$ }&:=\text{ event that a woman does not have breast cancer} \\
+                                \end{align*}
+                                Known
+                                \begin{align*}
+                                    P(\text{Pos } | \text{Bc})   &= 95\% \\
+                                    P(\text{Pos } | \text{Bc}^c)   &= 1-95\%  = 0.05\\
+                                    P(\text{Neg } | \text{Bc}^c) &= 95\% \\
+                                    P(\text{BC})                 &= 0.005 \\
+                                    P(\text{BC}^c)               &= 1-0.005\\
+                                \end{align*}
+                                We have that BC and BC$^c$ are disjoint and BC $\cup  BC^c $ = S. \\
+                                Therefore by the Law of Tot. Prob. 
+                                \begin{align*}
+                                    P(\text{ Pos }) &= P(\text{Pos } | \text{Bc}) * P(\text{BC}) + P(P(\text{Pos } | \text{Bc}^c) )* P(\text{Bc}^c))\\
+                                                    &= 0.95*0.005 + 0.05 *(1-0.005) \\
+                                                    &= 0.054
+                                \end{align*}
+                            \end{solution}
+                        \item[ii)] If a woman tests postive, what is the probability that she has breast cancer?
+                            \begin{solution}
+                                WTS P(Bc $|$ Pos).\\ \textbf{note: } we are required to reverse the  P(Pos $|$ Bc) (Baye's) 
+                                \begin{align*}
+                                    P(\text{Bc }| \text{Pos })  &= \frac{P(\text{Pos } | \text{Bc})* P(Bc) }{P(\text{Pos } | \text{Bc})* P(Bc)+ P(\text{Pos } | \text{Bc}^c)* P(Bc^c)}\\
+                                                                &= \frac{0.95*0.005}{\underbrace{0.054}_{\text{from part i)}}} \\
+                                                                &= 0.087
+                                \end{align*}
+                                Some comments on Baye's Theorem and diagnostic tests: \\
+                                    In the world of diagnostic tests P(Pos $|$ Disease) is called the sensitivity of the test
+                                    P(neg $| \text{Disease}^c$) is called the specificity.
+                                    P(Disease) is called the disease prevelance and 
+                                    P(Disease $|$ Pos) is called the postive predictive value of the test.
+                                    Note that pos predictive value depends on the sensitivity, specitivity and prevalue of the diseasea. 
+                            \end{solution} 
+                    \end{enumerate}
+                \end{example}
+
+    \newpage
+    \section{Lec 07, Jan 29}
+        Some comments on Baye's Theorem and diagnostic tests: \\
+        In the world of diagnostic tests \textbf{P(Pos $|$ Disease)}:= the sensitivity of the test\\
+        \textbf{ P(neg $| \text{Disease}^c$)}:= the specificity.\\
+        \textbf{P(Disease)}:= the disease prevelance and\\ 
+        \textbf{P(Disease $|$ Pos)}:= the postive predictive value of the test.\\
+        Note that pos predictive value depends on the sensitivity, specitivity and pre. value of the diseasea. \\
+        
+        \subsection{Statistical Independence*}
+            \textbf{Idea}: sometimes the occurance of an event A 
+                            does \textbf{NOT} influence the probability that an event B will occur.
+            \begin{example}
+                In the marble problem, supose that you draw two marbles \textbf{with} replacement. 
+                What is the probability that the second marble is drawn is red given the first is green. 
+                (i.e what is P[$R_2 | G_1$]). \\
+                Clearly, we obtained a green on the first draw has no impact on the probability of a red on the second draw, 
+                since the box was returned to its original composition.
+                This idea leads to a definition of the independence of two event A and B
+            \end{example}
+            
+            \begin{definition}
+                \tab
+                \begin{enumerate}
+                    \item  We say that the events A and B are independent $\iff $ P[ $B | A$ ] = P(B) \\
+                            \textbf{Note:} This definition is while intuitive, it is not easily extended to the notion of independence of more than two events.
+                    \item (non-intuitive but extendable) The events A and B are said to be independent, 
+                            \\$\iff $ $P(A \cap B) = P(A)*P(B)$.
+                \end{enumerate}
+            \end{definition}
+
+            \begin{theorem}
+                A and B are independent according to DEF 1 $\iff $ they are independent according to DEF 2.
+                (i.e The above two definition are equivalent.)
+            \end{theorem}
+            \begin{proof}\tab 
+                \begin{description}
+                    \item[($\Rightarrow$)]
+                    Assume A and B are independent according to DEF 1, WTS they are also independent according to DEF2.\\
+                    Then P(B $|$ A ) = P(B).\\
+                    Hence by the Multiplication rule 
+                    \begin{align*}
+                        P(A \cap B) &= P(B | A)*P(A) \\
+                                    &= P(B)*P(A)
+                    \end{align*}
+                    \item[($\Leftarrow$)]
+                        Trivial
+                \end{description}
+            \end{proof}
+            
+            \begin{definition}
+                The events $A_1, A_2,..., A_n$ are sait to be mutually independent if 
+                P\big[$A_{i_1} \cap ... \cap A_{i_k}$] = $P[A_{i_1} \big]*...*P[A_{i_k}]$ for all subset of 
+                $A_{i_1}...A_{i_k}$ selected from $A_1$ to $A_n$. 
+            \end{definition}
+            \begin{example} \tab
+                \begin{enumerate}
+                    \item $P(A\cap B \cap C) = P(A)P(B)P(C)$
+                    \item $P(A \cap B ) = P(A) P(B)$ etc...
+                \end{enumerate}
+            \end{example}
+
+            We also define independence for an infinite sequence of events $A_1,A_2,...A_3$
+            \begin{definition} 
+                    The event $A_1, A_2,...$ are independent if and only if every finite set of $A_i$ is independent according to the previous definition of independence.  
+            \end{definition}
+
+            \begin{note}\tab 
+                \begin{enumerate}
+                    \item Events $A_1,A_2,...,A_n$ are said to be pairwise independent if
+                            $P(A_i \cap A_j) = P(A_i)P(A_j)$ for all $i\neq j$. \\
+                            It can be shown that pairwise independence does \textbf{NOT} imply mutual independece. 
+                    \item we write $A \independent B$ to denote A is independent of B
+                    \item If $A \independent B $ then $B \independent A$ and vice-versa. \\
+                            Further, we have if A, B and C are mutually independent then 
+                            \begin{enumerate}
+                                \item $A^c \independent B $
+                                \item $(A \cup B )^c \independent C$
+                                \item $(A^c \cap B^c )\independent C$
+                                \item $(A \cup C)^c \independent B$
+                                \item $A^c \independent B^c$ etc...
+                                        \begin{proof}
+                                            WTS P($A^c \cap B^c$) = P($A^c$)P($B^c$) 
+                                            \begin{align*}
+                                                P(A^c \cap B^c) &= P((A\cup B)^c) \tag{De Morgan} \\
+                                                                &= 1 - P(A \cup B) \tag{Thm 1}\\
+                                                                &= 1- \Big[ P(A) + P(B) - P(A \cap B)\Big] \tag{Thm 5} \\
+                                                                &= 1- P(A) - P(B) + P(A \cap B) \\
+                                                \intertext{Now notice}
+                                                P(A^c)P(B^c)    &= (1-P(A))(1-P(B))\\
+                                                                &= 1-P(A)-P(B) +P(A)P(B) \\
+                                                \intertext{Hence}
+                                                P(A^c \cap B^c) &= P(A^c)P(B^c)
+                                            \end{align*}
+                                        \end{proof}
+                            \end{enumerate}
+                    \item \underline{In fact the following is true}\\
+                    Suppose that you have two sets $A_1,A_2,...A_n$ and $B_1,B_2,..., B_n$. 
+                    We say that the set of A is independent of set B if the probability of the intersection of every set of A with the intersection of every set of B 
+                    is the product of the intersection of the set of A and the set of B.\\
+                    E.g $P\Big[(A_3 \cap A_5 \cap A_6 ) \cap (B_1 \cap B_2)\Big] = P\Big[A_3 \cap A_5 \cap A_6\Big]* P\Big[B_1 \cap B_2\Big]$
+                \end{enumerate}
+            \end{note}
+            \newpage
+    
+    \section{Lec 08, Jan 31}
+        \subsection{The Role of Independence}
+            \begin{enumerate}
+                \item The most important Role of Independence in probability is the following:\\
+                        If you can assume independece base on your knowledge of the substantive area 
+                        and/or the way the experiment was carried out.
+                        Then subsequent probability calculations often become a lot easier than if you cannot make this assumptions.\\
+                        This is so since the probability of intersection. becomes product of probabilities 
+                        rather than product of conditional probabilities requiring knowledge of these conditional probabilities.
+                \item Second, we may want to decide whether evetns are independent (i.e This may be the goal.)\\
+                        For instance, one may wish to know, whether recovery time from abdominal surgery is independent of the temperature of the operating room.
+                \item The relation between disjointness and independence: \\
+                        It turns out that these notions are completely different.
+                        Disjointness is entirely a set property whereas independece depends on how probabilities are assigned to these events.
+                        The following theorem says it all:
+                        \begin{theorem}
+                            Suppose that A and B are disjoint, then A and B are independent only if either P(A) = 0, or P(B) = 0.
+                        \end{theorem}
+                        \begin{proof}
+                            \begin{align*}
+                                \text{A, B disjoint}    &\Rightarrow A \cap B = \phi\\
+                                                        &\Rightarrow P(A \cap B) = P(\phi) = 0\\
+                                \intertext{Now if A $\independent$ B, then we must have: }
+                                P(A \cap B) = P(A) P(B) &\Rightarrow P(A) P(B) = 0 \\
+                                                        &\Rightarrow P(A) = 0, \text{ or } P(B) = 0\\
+                            \end{align*}
+                        \end{proof}
+                        \begin{note}
+                            sometimes you will be required to find $P(A \cup B)$, you have from theorem 5, that 
+                            $P(A \cup B) = P(A) + P(B) - P(A \cap B)$, \\
+                            To deal with $P(A \cap B)$:
+                            \begin{enumerate}
+                                \item $A \cap B = \phi \Rightarrow P(A \cap B) = 0$
+                                \item $A \independent B \Rightarrow P(A \cap B) = P(A)P(B)$
+                                \item A and B are dependent, then $P(A \cap B) = P(B \mid A) P(A) $ (note, this is always true)
+                            \end{enumerate}
+                        \end{note}
+            \end{enumerate}
+
+            \newpage
+            \begin{example} (on how independence can be used)
+                \begin{note} Preliminary note
+                    \begin{enumerate}
+                        \item when sampling \textbf{without} replacement, the outcomes in the sequence of draws are dependent.\\
+                                Thus if you have a box of 10 items if which 4 are defective and you remove 2 without replacement,
+                                whether or not you observe a defective on the second draw will depend on what was removed on the first draw.
+                                However, if "the box" from which we sample is very large, relative to the size of the sample,
+                                we may regard the outcomes of our draws, as being roughly independent.
+                    \end{enumerate}
+                \end{note}
+                Suppose that in a very large city, 20\% of people have a certain genetic mutation. If 10 people are examined \\
+                Clearly we are sampling without replacement (by design). \\
+                Let the outcome on trial i, be $M_i$:= there is a mutation for subjects i. \\
+                $M_i^c$:= there is no mutation for subjects i. \\
+                Let X:= the number of mutations in these ten trials. (randome variable.)
+                \begin{enumerate}
+                    \item What is the probability that exactly 2 will have the mutation?
+                        \begin{solution} 
+                            WTS P(X = 2). Proceed as following
+                            \begin{enumerate}
+                                \item Find the probability of a specific configuration of mutations and non-mutations in 10 trials that result in 2 mutations out of 10.\\
+                                        Consider the configuration 
+                                        \begin{align*}
+                                            (M_1, M_2, M_3^c,...., M_{10}^c)    &= M_1 \cap M_2 \cap M_3^c \cap ... \cap M_{10}^c \\
+                                            P(M_1, M_2, M_3^c,...., M_{10}^c)   &= P(M_1)P(M_2)P(M_3^c)...P(M_{10}^c) \tag{Rough independenc (large 'city' - small sample)} \\
+                                                                                &= 0.2* 0.2* 0.8*...*0.8
+                                        \end{align*}
+                                        Now notice, all configurations which result in exactly two mutations will have probability $(0.2)^2(0.8)^8$
+                                \item Sum up the probability of all such configurations
+                                        \begin{align*}
+                                            P[X=2]  &= P \Big[\bigcup_{\text{k=1}}^{\text{all config.}} \text{ configuration k with 2 mutations }\Big] \\
+                                                    &=\sum_{\text{k=1}}^{\text{all config.}} P \Big[ \text{ configuration k with 2 mutations }\Big] \tag{Ax 3. (config. disjoint)}\\
+                                                    &= (0.2)^2(0.8)^8 \sum_{\text{k=1}}^{\text{all config.}} 1 \\
+                                                    &= (0.2)^2(0.8)^8 \binom{10}{2}
+                                        \end{align*}
+                            \end{enumerate}
+                            
+                        \end{solution}
+                        \newpage
+                    \item What is the probability that at least 2 will have the mutation?\\
+                        \begin{solution}
+                            WTS P[x $\geq 2$] \\
+                            \begin{align*}
+                                P [ x \geq 2]   &= \sum^{10}_{k=2} P[x = k] \\
+                                                &= \sum^{10}_{k=2} (0.2)^k (1-0.2)^{10-k} \binom{10}{k} \\
+                                \intertext{or completationally simpler:}
+                                                &= 1 - P[x < 2]\\
+                                                &= 1 - \big[P [x=0] + P[x = 1]\big]\\
+                                                &= 1 - \Bigg[\binom{10}{0}(0.2)^0(0.8)^{10-0} + \binom{10}{1}(0.2)^1(0.8)^{10-1}\Bigg]\\
+                            \end{align*}
+                        \end{solution}
+                        \begin{note}
+                            If the city has 10 million people with 20\% having the multation then the exact answer will be 
+                            $$P[x=2] = \frac{\binom{2 \text{million}}{2} \binom{8 \text{million}}{8}}{\binom{10 \text{million}}{10}}$$
+                            If you are not giving the actual size of the city, but told it's large. 
+                            You have to use the independent approximation.
+                        \end{note}
+                \end{enumerate} 
+            \end{example}
+            \newpage
+
+    \section{Lec 09, Feb 05}
+        \subsection{Random Variable}
+            \textbf{Idea:} Often not interested in the outcome of a random experiment but rather in real numbers
+                            that we can associate with each of these outcomes.
+            \begin{example}
+                A pathologist looking a grid on slide, where each rectangle contains either a red blood cell or a white blood cell. 
+                The pathologist is not really interested in the SEQ $R_1, R_2, R_3, W_4, R_5, W_6 ...$ 
+                rather she is interested in the number of red/white cells on the slide. 
+                This idea lead to the definition of the random variables that assigns a real number to each possible outcome of the experiment.
+            \end{example}
+
+            \begin{definition}
+                We call the function X(w) that assigns a real number of X(w) to every elementary outcome $\omega \in E$ a real value random variable. 
+                That is $X: w \rightarrow \Re$
+            \end{definition}
+            \begin{note} \tab 
+                \begin{enumerate}
+                    \item X is just a function. However, the argument and random outcomes of an experiment. \\
+                            i.e The outcomesare uncertain or random BEFORE the experiment is carried out. 
+                            Hence, the value of the function X are uncertain or random prior to the experiment. 
+                            This is why we called the function, X, a random variable.
+                    \item Always denote random variable by capital letters (e.g X, Y, Z etc)
+                    \item Once the experiment has been carried out and an $\omega \in S$ has been observed X(w) is a real number and 
+                            it's no longer random. i.e a realized or post experiment value of a random value is not random.\\
+                \end{enumerate}
+            \end{note}
+            \begin{definition}
+                Random variable are broadly classified into one of 2 types
+                \begin{enumerate}
+                    \item \textbf{Discrete R.V} \\
+                            By definition, a random variable is said to discrete if it can assume at most a countably infinite number of distinct value.
+                            \begin{example}\tab
+                                \begin{enumerate}
+                                    \item The number of times we get heads in 3 tosses of a coin (here could assume the values of X to be 0, 1, 2, 3)
+                                    \item The times between arrivals of a bus we assume to the nearest minute.
+                                    \item The number of explorality  wells that are drilled before oil is first struck (here, could assume the value of X to be 1,2,3...)
+                                \end{enumerate}
+                            \end{example}
+                    \item \textbf{Countinous R.V} \\
+                            There are random variables that can be assumed any real value in some interval. 
+                            \begin{example}\tab
+                                \begin{enumerate}
+                                    \item The $\textbf{\underline{exact}}$ time between the arrival of buses at a bus stop
+                                    \item The $\textbf{\underline{exact}}$ time to recovery following surgery.
+                                    \item The $\textbf{\underline{exact}}$ blood pressure of a patient.
+                                \end{enumerate}
+                            \end{example}
+                \end{enumerate}
+            \end{definition}
+        \subsubsection{Specification of R.V}
+            \begin{enumerate}
+                \item In classical mathematics we specify a function by giving its domain and the values of the function at these value of X.
+                        Since a R.V X has a inherent uncertainties (prior to the experiment) when specify X, we need to specify the probability that X will assume its various values(the rough idea)
+                \item The following is one way to specify a R.V in the case where R.V X is either discrete or continous
+            \end{enumerate}
+
+            \begin{definition}
+                Let X be a random variable. Let the real value function denoted by $F_x$ is defined as follows: 
+                $$F_x(X) \stackrel{\text{def.}}{=} P[X \leq x] \tab \forall -\infty < x < +\infty$$
+                F := the cumulative distribution function (cdf) or distribution function (df) of the random variable X. 
+            \end{definition}
+            \begin{note}\tab
+                \begin{enumerate}
+                    \item when we write $P[X \leq x]$ we mean $P[\omega: X(\omega) \leq x] = P\big[X^{-1}(-\infty, x]\big]$ \\
+                            i.e $P[X \leq x]$ = P (all w in S that are mapped by X into the interval ($-\infty, x$] )
+                    \item When we have specified the cdf of a random variable X it turns out that we have (in theory) uniquely specified $P[x \in A]$ for any A a subsect in the real line. 
+                            i.e we can uniquely specify the probability of all events associated with X once we know the cdf $F_x$ that gives us only the probability of special types of sets, $(-\infty,x]$
+                    \item We call the set of probability $\big\{P[x \in A]: A \subset \Re \text{ 7y7is an event} \big\}$ The probability distribution of Random variable X.
+                \end{enumerate}
+            \end{note}
+            \newpage
+
+    \section{Lec 10, Feb 07}
+        \subsection{Cumulative Distribution Function}
+            \textbf{Summary: }
+            \begin{enumerate}
+                \item The probability distribution of a random variable 
+                        is the specification of the probability that $x \in A$ for every subset A of the real line.\\ 
+                        i.e this is \{P(x $\in$ A): A is a subset of $\mathbb{R}$ \}
+                \item Amazingly, in order to uniquely specify the probability of of all subsets, 
+                        it's enough to specify the probabilty of just a small collection of subsets.\\
+                        i.e it's enough to specify the probability of intervals of the type (-$\infty, x$)
+                \item The theorem telling us this = caratheodory extension theorem.
+                \item The real-value function of X, which gives P($X \leq x$) = P[X $\in (-\infty,x]$] is called the cumulative distribution function (cdf) and is denoted by $F_x()$
+                        Thus $F_x(X) \stackrel{\textbf{def}}{=} P(X \leq x)$
+                \item Thus the cumulative distribution function uniquely determines the probability distribution of a random variables.
+            \end{enumerate}
+
+            \begin{note} \tab
+                \begin{enumerate}
+                    \item \textbf{The CDF's Properties:} 
+                            \begin{enumerate}
+                                \item $F_x(X)$ is non-decreasing of a function of X. i.e if x $<$ y then $F_x(X) \leq F_x(Y)$ 
+                                \item $F_x(X)$ is continuous from the right i.e $\lim\limits_{y \neq x} F_x(Y) = F_x(X)$ (basically $F_x(X)$ does not jump as you approach x from above)
+                                \item $\lim\limits_{x \rightarrow \infty} F_x(X) = 1$ and $\lim\limits_{x \rightarrow -\infty} F_x(X) = 0$ in brief $F_x(\infty) = 1$ and $F_x(-\infty) = 0$ 
+                            \end{enumerate}
+                    \item If $F_x$ is continuous both from the left and right (i.e F is "plain" continuous, we say the random variable X is continuous)
+                    \item We have P($a \leq X \leq b$) = $F_x(b) - F_x(a)$ for all a $<$ b
+                    \item Here are some typical cdf's:\\ \includegraphics[scale = 0.3]{L9_1.png} \includegraphics[scale = 0.3]{L9_2.png} 
+                    \item  So far, our discussion hasa applied to random variables in general. 
+                            We now examine \textbf{discrete} random variables and \textbf{continuous} random variables separately
+                                \begin{itemize}
+                                    \item A random variable is discrete if its cdf is a step function with jumps of values $X_1, X_2,...$ which can be assumed by the random vairable X. 
+                                            Thus a discrete random vairable has cdf with at most countably many jumps.
+                                    \item The size of each jump at $x_0$ is obtained as $$F_X(x_0) - \lim_{y\rightarrow x_0^-} F_X(y) = F_X(x_0) - F_X(x_0^-)$$
+                                            Think roughly, that the size of the jump at $x_0$ is $ F_X(x_0) - F_X(y)$ has a y \textbf{very} close to $x_0^-$
+                                    \item $P[X = x_0] = F_X(x_0) = F_X(x_0^-)$ = size of the jum in $F_X$ at $x_0 $ \\
+                                            If $x_0$ is not one of the value of X, then the size of the jump will be 0. This correspond to P[X = $x_0$] = 0 for such $x_0$\\
+                                            If $x_0$ coincides with one of the $x_i$ then the size of the jump at that $x_i$ gives P[X = $x_i$]\\
+                                            There is apart from the cdf another way to specify the probability distribution of a discrete random variable. 
+                                \end{itemize}
+                \end{enumerate}
+
+            \end{note}
+        \subsection{Discrete R.V and CDF}
+            \begin{definition}
+                If X is a \textbf{discrete} random variable, then the real valued function of X, defined as follows, is called the \textbf{probablity function} (probability mass function of the random variable)
+                \begin{itemize}
+                    \item Let $P_X(x) = P[X = x]$ for all x in range of X \\
+                            Then we will call $P_X(x)$ the probablity function of the random variable X \\
+                            i.e $P_X(x)$ gives the probability of all x. we usually specify $P_X(x)$ only for those x for wich the probablity is $>$ 0 and it's assumed that all other x have prob. = 0
+                \end{itemize}
+            \end{definition}
+            Now it is easy to show that $P_X()$ uniquely determines the probablity distribution of a discrete random variable.
+            The following theorem tells us there is 1-1 correspondence between the probability function $P_X$ and the cdf $F_X$ of a discrete random variable. \\
+            Hence $P_X$ uniquely determines the probability distribution of X
+
+            \begin{theorem} \tab 
+                \begin{enumerate}
+                    \item $P_X$ determines $F_X$ 
+                    \item $F_X$ determines $P_X$
+                \end{enumerate}
+                \begin{proof}
+                    \begin{enumerate}
+                        \item Let $P_X$ be given, then 
+                                \begin{align*}
+                                    F_X(x_0)    &= P[X \leq x_0]  \\
+                                                &= \sum_{\text{all x} \leq x_0 } P[X = x]  \tag{Ax 3} \\
+                                                &= \sum_{x \leq x_0} P_X(x) 
+                                \end{align*}
+                                i.e $P_x$ determines $F_X(x_0)$ for all $x_0$
+                        \item suupose $F_X$ is given \\
+                                Let $X_0$ be some arbitrary value in the range of X.\\
+                                Then we have 
+                                \begin{align*}
+                                    P_X(x_0)    &= F_X(x_0) - F_X(x_0^-)  \\
+                                                &= F_X(x_0) - \lim_{y \rightarrow x_0^-} F_X(y)
+                                \end{align*}
+                    \end{enumerate} 
+                \end{proof}
+            \end{theorem}
+            \newpage
+            \begin{example}
+                Suppose that if a flight is cancelled the airline loses 5000\$, \\
+                if the flight leaves late (more than 1/2 hours late) it loses 2000\$,\\
+                if it leaves on time, it makes a profit of 10000\$\\
+                if it leaves late but less than 1/2 hour, it still makes 10000\$\\
+                P[C] = 0.05\\
+                P[$>$ 1/2 hour late] = 0.1 \\
+                P[on time ] = 0.7\\
+                The questions are:
+                \begin{enumerate}
+                    \item Find the probability function of the random variable that represent the gain on a flight
+                    \item Find the cdf of this random variable.
+                \end{enumerate}
+            \end{example}
+            \begin{solution}
+                The elementary outcomes are: \\
+                \tab $\omega_1 = $ cancelled. \\
+                \tab $\omega_2 = $ 1/2 hour late. \\
+                \tab $\omega_3 = $ on time. \\
+                \tab $\omega_4 = $ less than 1/2 hour late. \\
+                Let X = the gain for a flight.\\
+                We have: \\
+                \tab X($\omega_1$) = -5000\\
+                \tab X($\omega_2$) = -2000\\
+                \tab X($\omega_3$) = 10000\\
+                \tab X($\omega_4$) = 10000\\
+                \begin{enumerate}
+                    \item We want$P_X(x) = P[X = x] $ for all x that X can assume
+                            \begin{align*}
+                                P[X = -5000]    &= P[\omega : X(\omega) = -5000]\\
+                                                &= P[C] = 0.05\\
+                                P[X = -2000]    &= P[\omega : X(\omega) = -2000]\\
+                                                &= P[> 1/2 \text{ late }] \\
+                                                &= 0.1\\
+                                P[X = 10000]    &= P[\omega : X(\omega) = 10000]\\
+                                                &= P[\text{ on time }] + P[\leq 1/2 \text{ late }]\\
+                                                &= 0.7 + 1 - P[> 1/2 \text{ late }]- P[\text{ on time }] - P[C]\\
+                                                &= 0.7 + 1 - 0.05 - 0.1 - 0.7 
+                                                = 0.85
+                            \end{align*}
+                            Hence $P_X(x)$ is specified and \\
+                            \textbf{PLOT:}\\ 
+                            \includegraphics[scale=0.3]{L11_1.png}
+                    \item To find the cdf $F_X(x)$, we need to give P[$X \leq x$] for all $-\infty < x < \infty$. 
+                            \begin{align*}
+                                F_X(x) &= 0                \tag{for x $<$ -5000 }\\
+                                F_X(x) &= P[X = -5000] = 0.05              \tag{for -5000 $\leq$ x $\leq$ -2000 } \\
+                                F_X(x) &= P[-\infty < X < -5000] + P[-5000 \leq X < -2000] \\
+                                       & \tab + P[-2000 \leq X < 10000] \\
+                                       &= 0 + 0.05 + 0.1 \\
+                                       &= 0.15 \tag{for -2000 $\leq$ x $\leq$ 10000 } \\
+                                F_X(x) &= 0 + 0.05 + 0.15 + 0.85 = 1 \tag{for 10000 $\leq$ x $< \infty$}
+                            \end{align*}
+                            \textbf{PLOT}: \\\includegraphics[scale = 0.3]{L11_2.png}
+                \end{enumerate}
+            \end{solution}
+   
+    \newpage
+    \section{Lec 11, Feb 12}
+        \subsection{Some named discrete distribution}
+            Some discrete distribution arise so frequently that they are given special names. Here are some of them:
+            \subsubsection{The discrete uniform distribution}
+                \begin{definition}
+                    The random variable X is said to be a discrete uniform distribution on the real numbers $a_1, a_2, ... ,a_N$ 
+                    if $P_X[x] = P[X = x] = 1/N$ for all x = $a_1, a_2, ... ,a_N$  
+                    (i.e $P_X(a_i) = 1/N$ for all i = 1, 2, ..., N)
+                \end{definition}
+                \begin{note} \tab
+                    \begin{enumerate}
+                        \item A probability function $P_X(x)$ must satisfy the following 2 conditions:
+                                \begin{enumerate}
+                                    \item $P_X(x) \geq 0 $ \tab \tab $\forall x$
+                                    \item $\sum\limits_{\text{all x}} P_X(x) = 1$ \tab (P(S) = 1)
+                                \end{enumerate}
+                        \item Reason for the name, "uniform": \\
+                                All possible values of X are equally probable, with probabilty 1/N
+                        \item The $a_i$ need not be positive or integer valued.\\ i.e \\\includegraphics[scale = 0.3]{L11_3.png}
+                        \item The discrete uniform distribution is used to model what we understand to be "complete randomness"
+                    \end{enumerate}
+                \end{note}
+
+            \subsubsection{The Bernouilli Distribution}
+                \begin{definition}
+                    The random variable X is said to have a Bernouilli distribution with parameter p,
+                    if \begin{enumerate}
+                        \item $P_X(x) = p$ when x = 1
+                        \item $P_X(x) = 1-p = q$ when x = 0 
+                    \end{enumerate}
+                \end{definition}
+                \begin{note} \tab
+                    \begin{enumerate}
+                        \item We can write the probability function compactly as $P_X(x) = p^x(1-p)^{1-x}$ for x =0, 1
+                        \item The Bernoullie Distribution is mostly used as a building block for random variables that can be regarded as sums.
+                    \end{enumerate}
+                \end{note}
+
+            \subsection{The Binomial Distribution}
+                \begin{definition}
+                    A random variable X is said to have a binomial distribution with parameters n and p 
+                    if $P_X(x) = P[X = x] = \binom{n}{x}p^x(1-p)^{n-x}$ for x = 0,1,...,n and $0 < p < 1$
+                \end{definition}
+
+                \begin{note}\tab
+                    \begin{enumerate}
+                        \item Clearly $P_X(x) \geq 0$ but $\sum\limits_{\text{all x}} P_X(x) \stackrel{?}{=} 1$ 
+                                \begin{proof}
+                                    \begin{align*}
+                                        \intertext{consider} 
+                                        \sum_{x=0}^n \binom{n}{x}p^x(1-p)^{n-x} &= [p + (1-p)]^n \tag{by the binomial theorem}\\
+                                    \end{align*}
+                                    (to be continued...)
+                                \end{proof}
+                    \end{enumerate}
+                \end{note}
+                \newpage
+
+    \section{Lec 12, Feb 14}
+        \textbf{Midterm include materials up untill and include this class}
+        How does the binomial distribution most often arrive? 
+        \subsection{Binomial Setup}
+        \begin{enumerate}
+            \item We assume that we have n independent Bernoulli trials\\
+                    (A Bernouilli trial is the one that can result in exactly one of two possible outcome.
+                    By convention, we call these outcomes "success" and "Failure")
+            \item We assume that if $S_i$ is the event success at trial i and $F_i$ as failure, \\
+                    then P[$S_i$] = p for all i = 1, ..., n and P[$F_i$] =  1- P[$S_i$]  = 1-p.\\
+                    Note that p is assumed to be constant from trial to trial \\
+                    Let X = the number of observed successes in these n trials 
+                    \begin{theorem}
+                        $P[ X = x] = \binom{n}{x} p^x (1-p)^{n-x}$ for x = 0, 1 , ..., n
+                    \end{theorem}
+                    \begin{proof}\tab 
+                        \begin{itemize}
+                            \item Done already in the constant of the gene mutation problem when sampling from a very population (small sample) 
+                            \item \textbf{Idea:} Find the probability of a specific configuration with x successes and n-x failures. 
+                                    This is $$p^x(1-p)^{n-x}$$
+                                    Every such configuration was this probability P[X=x] = sum of the probabilities of all such configurations\\
+                                    THere are $\binom{n}{x}$ terms in this sum 
+                            \item Hence in a word problem if 
+                                    \begin{enumerate}
+                                        \item you have trials that result in one of two possible outcomes with equal probability
+                                        \item you can assume that these trials are independent, then X = number of successes in these n-trials has a binomial distribution
+                                    \end{enumerate}
+                        \end{itemize}
+                    \end{proof}
+
+            \item Be careful of immediately invoking the binomial distribution because you see 2 types of outcomes on each trial. The trials may be dependent. 
+                    \begin{example}
+                        Suppose that patients undergoing a certain treatment can survive $>$ 5 years or $\leq$ 5 years. \\
+                        Suppose proportion of patients that survive more than 5 years is 0.80 \\
+                        If 30 patients are to recieve this treatment. \\
+                        What is the probability that at least 3 will survive more than 5 years. 
+                    \end{example}
+                    \begin{solution} \tab 
+                        \begin{itemize}
+                            \item Let X = number of patients who survive more than 5 years\\
+                                    Assume that patients survive independent of each other \\
+                                    Let $S_i$:= event that patient i survives more than 5 years i = 1, 2,..., 30 \\
+                                    We can assume the binomial setup with n = 30 and P[$S_i$] = 0.80
+                            \item Hence 
+                                    \begin{align*}
+                                        P[X \geq 3] &= \sum_{x = 3}^{30} P[X = x] \\
+                                                    &= \sum_{x = 3}^{30} \binom{30}{x}(0.8)^x(1-0.8)^{30-x}
+                                        \intertext{OR}
+                                        P[X \geq 3] &= 1 - P[X < 3] \\
+                                                    &= 1 - P[X \leq 2] \\
+                                                    &= 1 - \sum_{x = 0}^{2} \binom{30}{x}(0.8)^x(0.2)^{30 - x}
+                                    \end{align*}
+                        \end{itemize}
+                        \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab \textbf{Q.E.D}
+                    \end{solution}
+        \end{enumerate}
+
+        \subsection{\textbf{The geometric distribution}}
+            \begin{definition}
+                A random variables X is said to have geometric distribution with parameter $0 < p < 1$ if $P_X(x) = P[X = x] = (1-p)^{x-1}p$ x = 1, 2, ...
+            \end{definition}
+            How does the geometric distribution arrive ? \\
+            \textbf{Answer:} 
+                \begin{itemize}
+                    \item Imagine a sequence of independent Bernouilli trial, with P[$S_i$] = p for i=1,2...
+                    \item Let x = the trial at which the first success is observed 
+                \end{itemize}
+            \textbf{Claim:} $P[X=x] = (1-p)^{x-1}p$ for x =1,2,...\\
+            \tab \tab (i.e the geometric distribution is the distribution of the "time" to success in a sequence of\\
+            \tab \tab \tab  independent Bernouilli Trials with constant probability of success)
+            \begin{proof}\tab 
+                \begin{itemize}
+                    \item The event \{X = x\} is equivalent to the event \{$F_1 \cap F_2 \cap ... \cap F_{x-1} \cap S_x$\}
+                            \begin{align*}
+                                P[X=x]  &= P[F_1 \cap F_2 \cap ... \cap F_{x-1} \cap S_x] \\
+                                        &= P[F_1]*P[F_2]*...*P[F_{x-1}]*P[S_x] \tag{By the assumption that the trials are indep.}\\
+                                        &= (1-p)^{x-1}p \tag{for all x = 1, 2, ...}
+                            \end{align*}
+                \end{itemize}
+            \end{proof} 
+            \begin{note}\tab
+                \begin{itemize}
+                    \item The Binomial gives the number of successes in a fixed number of trials n. 
+                    \item The geometric gives the trial at which th first success occurs. 
+                    \item The number of trials is not fixed 
+                \end{itemize}
+            \end{note}
+        
+        \subsection{Negative Binomial Distribution}
+            \begin{definition}\tab
+                \begin{itemize}
+                    \item A random variable X has a negative binomial distribution with parameter K and p
+                            if X describes the trial at which the kth success occurs in a sequence 
+                            by independent Bernouilli trials with constant probability of success p.
+                \end{itemize}
+            \end{definition}
+
+            Let's find $P_X(x) = P[X = x]$ for x = k, k+1, ...
+            \begin{align*}
+                P[X=x]  &= P[\text{ getting k-1 successes in x-1 trials $\cap$ getting k success on trial x}] \\
+                        &= P[A \cap B] \\
+                        &= P[B \mid A]* P(A) \\
+                        &= P(B)*P(A) \tag{by independence} \\
+                        &= \underbrace{p}_{P(B)}  \binom{x-1}{k-1} p^{k-1} (1-p)^{x-1-(k-1)} \tag{for x = k, k+1,...}\\
+                        &= \binom{x-1}{k-1}p^k(1-p)^{x-k} \tag{for x = k, k+1, ...}
+            \end{align*}
+\end{document}
