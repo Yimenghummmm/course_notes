@@ -1216,4 +1216,114 @@
                         &= \underbrace{p}_{P(B)}  \binom{x-1}{k-1} p^{k-1} (1-p)^{x-1-(k-1)} \tag{for x = k, k+1,...}\\
                         &= \binom{x-1}{k-1}p^k(1-p)^{x-k} \tag{for x = k, k+1, ...}
             \end{align*}
+            \newpage
+            
+    \section{Lec 13, Feb 19}
+        \subsection{Poisson Distribution}
+            \begin{definition}
+                The random variable X is said to have a Poisson distribution with parameter $\lambda > 0$ if and only if $$P_X(x) = P[X=x] = \frac{\lambda^x e^{-\lambda}}{x!} \tab \forall x = 0,1,...$$
+                Notice
+                \begin{align*}
+                    \sum_{x=0}^{\infty} P_X(x)  &= \sum_{x=0}^{\infty}  \frac{\lambda^x e^{-\lambda}}{x!} \\
+                                                &= e^{-\lambda} \underbrace{\sum_{x=0}^{\infty} \frac{\lambda^x}{x!}}_{e^{\lambda}} \\
+                                                &= e^{-\lambda}e^{\lambda} \\
+                                                &= 1
+                \end{align*}
+            \end{definition}
+            \begin{note}
+                The Poisson Distribution arises as an approximation to the Binomial distribution if "n is large and p is small" 
+            \end{note}
+
+            \begin{theorem}
+                \textbf{(Poisson approximation to the Binomial)} \\
+                Let X have a Binomial distribution with parameters n and p. Then 
+                $$P[X=x]\rightarrow \frac{\lambda^x e^{-\lambda}}{x!} \tab \textbf{ as } n \rightarrow \infty, p \rightarrow 0 \tab \forall x = 0,1...$$
+                such that np = $\lambda$ is constant
+
+                \begin{proof}
+                    \begin{align*}
+                        P[X= x]     &= \binom{n}{x} p^x (1-p)^{n-x} \tag{for x = 0,1,...} \\
+                                    &= \frac{n!}{x!(n-x)!}* \frac{p^x (1-p)^n}{(1-p)^x} \\
+                                    &= \frac{n*(n-1)*...*2*1}{x!(n-x)*(n-x-1)*...*2*1}  * \big(\frac{\lambda}{n}\big)^x * \big(1 - \frac{\lambda}{n}\big)^n *\frac{1}{(1 - \frac{\lambda}{n})^x}    \tag{note $\lambda = np \Rightarrow p = \lambda/n$}\\
+                                    &= \frac{\lambda^x}{x!} * \frac{\overbrace{n*(n-1)*...*2*1}^{\text{x terms}}}{\underbrace{n* n* ....* n}_{\text{x terms} (n^x)}} * \big(1 - \frac{\lambda}{n}\big)^n * \frac{1}{(1 - \frac{\lambda}{n})^x}  \\
+                        \intertext{Now let $n \rightarrow \infty $}
+                        \intertext{The first term on the R.H.S $\rightarrow$ 1 as $n \rightarrow \infty$ and each "ratio" $\rightarrow$ 1 (e.g $\frac{n-1}{n} \rightarrow 1$ as $n \rightarrow \infty$)}
+                        \intertext{The second term on the R.H.S $\rightarrow 1$ as $n \rightarrow \infty$ since $(1 - \lambda/n \rightarrow 1)$ as $n \rightarrow \infty$ } 
+                        \intertext{Finally $(1 - \lambda/n)^n \rightarrow e^{-\lambda}$ as $n \rightarrow \infty$ (another definition of $e^{-\lambda}$)}
+                        \intertext{Hence} 
+                        P[X= x]     &\rightarrow \frac{\lambda^x e^{-\lambda}}{x!} \tag{for x = 0,1,...}
+                    \end{align*}
+                \end{proof}
+            \end{theorem}
+
+            \begin{example}
+                Suppose that sections of textile of length 1cm have a flaw in them with probability .01. 
+                If 1000 such sections are examined. What is the approximate probability that at least 50 will have a flaw?
+            \end{example}
+            \begin{solution} \tab
+                \begin{itemize}
+                    \item Let X be the number of 1cm length sections that have a flaw
+                    \item Assume the binomial setup so that X has binomial distribution with n = 1000 and p = 0.01
+                    \item Hence since n is "large" and p is "small", we can use the Poisson approximation to the Binomial distribution
+                    \item Exact answer(Binomial)
+                        \begin{align*}
+                            P[X \geq 50]    &= \sum_{x=50}^{1000} \binom{1000}{x} (0.01)^x(1-0.01)^{1000-x}
+                        \end{align*}
+                    \item Poisson Approximation: 
+                        \begin{itemize}
+                            \item Let $\lambda = np = 1000*0.01 = 10$ Then 
+                            \begin{align*}
+                                P[X \geq 50]    &= \sum_{x=50}^{\infty} \frac{10^xe^{-10}}{x!} \\
+                            \end{align*}
+                        \end{itemize}
+                \end{itemize}
+            \end{solution}
+
+        \subsection{The Hypergeometric Distribution} 
+            \begin{definition}
+                A random variable X is said to hvae a Hypergeometric distribution with parameter N, a and n
+                if and only if \[P[X = x] = \frac{\binom{a}{x}\binom{N-a}{n-x}}{\binom{N}{n}} \tab \forall x = 0, 1,...\]
+            \end{definition}
+            \begin{note}\tab
+                \begin{itemize}
+                    \item We see immediately that this is just the distribution of the number of tagged fish in a sample of size n 
+                            drawn without replacement from a lake with N fish of which a are tagged (Fish in the lake problem) 
+                    \item In fact, the Hypergeometric distribution describes the number of Type 1 objects observed in a sample of size n drawn without replacement from a "box" with N objects 
+                            (a of Type 1 and N-a of Type 2) (Justitication was done earlier)
+                \end{itemize}
+            \end{note}
+            \tab \\
+            \textbf{\framebox{Notation:}} We have notation for describing the distribution of a named random variable 
+                \begin{itemize}
+                    \item X $\sim$ Ber(p): X has bernoulli distribution with paramenter p 
+                    \item X $\sim$ Bin(n, p): 
+                    \item X $\sim$ Poisson( $\lambda$ )
+                    \item X $\sim$ Geometric(p)
+                    \item X $\sim$ NegBin(n, p, k)
+                \end{itemize}
+           
+
+        \subsection{Mathematical Expectation \& Variance}
+            \begin{itemize}
+                \item[\textbf{\framebox{Idea:}}] The probability distribution of a discrete random variable X, tells the whole story about X 
+                                                    i.e How its value are distributed, with different probability. \\
+                                                    However, maybe you want one of two summaries of $P_X(x)$, that captures the main features of this distribution.\\
+                                                    The two features that immediately comes to mind are: 
+                                                    \begin{enumerate}
+                                                        \item The "centre" of the distribution or "average value" of X
+                                                        \item The "variability" or "spread" of the values of X
+                                                    \end{enumerate}
+            \end{itemize}
+            \begin{definition}(Expectation)
+                Let X be a discrete random variable, Let E(X) = $\sum\limits_{\text{all x}} x P[X=x]$. 
+                Then call E(X) the expected value of X (or the expectation of X)  
+            \end{definition}
+            \begin{note}\tab 
+                \begin{enumerate}
+                    \item Often we denote E(X) by $\mu_X$
+                    \item we also call E(X) the population mean of X
+                    \item E(X) can be thought of as the weighted average of X, with weights P[X=x]
+                \end{enumerate}
+            \end{note}
+
 \end{document}
