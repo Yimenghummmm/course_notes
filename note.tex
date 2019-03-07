@@ -1325,5 +1325,112 @@
                     \item E(X) can be thought of as the weighted average of X, with weights P[X=x]
                 \end{enumerate}
             \end{note}
+    \section{Lec 14 Feb 26}
+        \subsection{Expectation}
+            \begin{definition}(Expectation)
+                Let X be a discrete random variable, Let E(X) = $\sum\limits_{\text{all x}} x P[X=x]$. 
+                Then call E(X) the expected value of X (or the expectation of X)  
+            \end{definition}
+            \begin{note}\tab cont'd with last class 
+                \begin{enumerate}
+                    \item Often we denote E(X) by $\mu_X$
+                    \item we also call E(X) the population mean of X
+                    \item E(X) can be thought of as the weighted average of X, with weights P[X=x]
+                    \item E(X) can also be thought of  what you would get of observed infinitely man $X_i$ all with the same distribution as X, 
+                            and then take their average (followed from the law of Large numbers) 
+                    \item Two important properties of expectation, if c is a constant then  
+                        \begin{enumerate}
+                            \item E(cX) = cE(x)  $\Rightarrow \sum_{\text{all x}} cx P[X=x] = c \sum_{\text{all x}} P[X=x]$
+                            \item E($\sum\limits_{i=1}^n x_i$) = $\sum\limits_{i=1}^n E(X_i)$ 
+                        \end{enumerate}
+                        This does not require the random variables to be "independent"
+                    \item The expected value does not provide a value of X that "you would expect to see" 
+                            In fact, most often E(X) would not be one of the possible values of X. It is an average. 
+                    \item We say that the expectation of a random variable X exists if E( $\mid X\mid$ ) $< \infty$ (i.e its finite)
+                        \begin{example}
+                            if a random variable does not have a finite expectation
+                            \begin{enumerate}
+                                \item Let X = n with probability $\frac{c}{n^2} \tab \forall n = 1, 2, ...$
+                                \item Notice we must have \[\sum\limits_{x=1}^{\infty} P[X = x] = 1 \Rightarrow \sum\limits_{n=1}^{\infty} \frac{c}{n^2}  = 1 \Rightarrow c = 1 / \sum\limits_{n=1}^{\infty} \frac{1}{n^2} < \infty \]
+                                \item Now \[E(x) = \mu_x = \sum\limits_{x=1}^{\infty} n \frac{c}{n^2 }  = \sum\limits_{\text{all x}} xP(X=x)\tag{which diverges}\]
+                                \item Hence E(x) does not exist
+                            \end{enumerate} 
+                        \end{example}
+                \end{enumerate}
+            \end{note}
+            \newpage
 
+            \begin{example}
+                Calculation of insurance premiums. \\
+                Suppose that you wish to insure your computer against theft for 1000\$. The insurance company knows that 5\% of such computers are stolen every year,
+                and 95\% are not. What premium should the company charge in order that its expected gain per customer is 0\$
+                \begin{solution} \tab
+                    \begin{enumerate}
+                        \item Let X = gain of the company, and c = desired premium. We first need $P_X(x) = P[X = x]$
+                        \item We have 
+                            \begin{align*}
+                                P[X = c]    &= 0.95 \\
+                                P[X = -1000+c]  &= 0.05 \\
+                                \intertext{Hence}
+                                E(X)    &= 0.95c + 0.05(c-1000) 
+                            \end{align*}
+                        \item set E(X) = 0 we get c = 50\$
+                    \end{enumerate}
+                \end{solution}
+            \end{example}
+            Now it's clear that $\mu_x$ alone does not provide an adequate picture (summary) of distribution. 
+            We need at least to describe the variability of our random variable about its expected value. 
+            \begin{example}
+                Let X = $10^6$ with probability 1/2\\
+                    \tab \tab \tab = $-10^{6}$ with probability 1/2
+                    \includegraphics[scale = 0.3]{L14_1.png}\\
+                    Here E(X) = $-10^6$ * 1/2 + $10^6$* 1/2 = 0 which alone hardly tells us about the random variable X.\\
+                    This leads to the definition of a measure of spread of variation
+            \end{example}
+        \subsection{Variance}
+            \begin{definition}
+                Let X be a random variable. Let Var(X) = $\sigma^2_x = E[(X- \mu)^2]$. Then we cal Var(X) the variance of X
+            \end{definition}
+            \begin{note}\tab
+                \begin{enumerate}
+                    \item $\sigma^2_x$ is often used as the var of X
+                    \item $\sigma^2_x$ is a constant parameter and a characteristic of the distribution of X (in a parameter setting) it is also called the population variance
+                    \item The units of Var(X) are the same as the units of $X^2$, which renders the interpretation of Var(X) a bit awkward. 
+                            Hence we often use $\sqrt{Var(X)} = \sqrt{\sigma^2_x} = \sigma_x$ as a measure of spread. We call $\sigma_x$ the standard deviation of X. 
+                            $\sigma^2_x, \sigma_x$ are mathematically equivalent. $\sigma_x$ is in the same units as X
+                    \item There is an alternative form for $\sigma^2_x$, we have by definition that 
+                        \begin{align*}
+                            \sigma^2_x      &=  E[(X - \mu)^2]\\
+                                            &=  E[X^2 - 2\mu X + \mu^2]\\
+                                            &=  E(X^2) - E(2\mu X) + E(\mu^2)\\
+                                            &=  E(X^2) - 2\mu \underbrace{E(X)}_{\mu} + \mu^2\\
+                                            &=  E(X^2) - \mu^2\\
+                                            &=  E(X^2) - E^2(X)
+                        \end{align*}
+                        This immediately tells that \[E(X^2) \geq E^2(X) \tag{since $E[(X-\mu)^2]>$ 0} \]
+                    \item Var(cX) = $c^2$Var(X) 
+                    \item so if X is discrete 
+                        \begin{align*}
+                            \sigma^2_x  &= \sum_{\text{all X}} (X - \mu_x)^2 P[X = x] \\
+                                        &= \underbrace{\sum_{\text{all X}} X^2 P[X = x]}_{E(X^2)} - \underbrace{\big[\sum_{\text{all X}} X P[X = x] \big]^2}_{E^2(X)}
+                        \end{align*}
+                \end{enumerate}
+            \end{note}
+            
+            \begin{example}
+                Suppose that botanist knows the leaf length of certain plant has the following distribution (in cm) \\
+                Let X be a random leaf length. Known: \\
+                \tab P(X = 1.2) = 0.3 \\
+                \tab P(X = 2.2) = 0.2 \\
+                \tab P(X = 3.7) = 0.5 \\
+                Find (i) E(X) and (ii) $\sigma_x$
+                \begin{solution} \tab 
+                    \begin{enumerate}
+                        \item[i] E(X) = $\mu_x$ = 1.2 * 0.3 + 2.2 * 0.2 + 3.7 * 0.5 = 2.65
+                        \item[ii] Var(X) = E($X^2$) - $\mu_x^2$ = $1.2^2 * 0.3 + 2.2^2 * 0.2 + 3.7^2 * 0.5 - 2.05^2$ = 1.2225 \\
+                                    or $\sigma^2_x = (1.2 - 2.65)^2 * 0.3 + (2.2 - 2.65)^2 * 0.2 + (3.7 - 2.65)^2 * 0.5 $  
+                    \end{enumerate}
+                \end{solution}
+            \end{example}
+            
 \end{document}
